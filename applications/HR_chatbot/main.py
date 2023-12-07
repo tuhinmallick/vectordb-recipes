@@ -8,8 +8,7 @@ from scripts.models_preprocess import HRChatbot
 chatbot = HRChatbot("data/employee_info.csv", "data/hr_policy_sample.txt", "aks desai")
 
 def process_input(user_input):
-    response = chatbot.get_response(user_input)
-    return response
+    return chatbot.get_response(user_input)
 
 st.header("HR Chatbot ask personal query ")
 st.markdown("Ask your HR-related questions of yours.")
@@ -39,7 +38,7 @@ if st.button("Send"):
 if st.session_state["generated"]:
     with chat_container:
         for i in range(len(st.session_state["generated"])):
-            message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
+            message(st.session_state["past"][i], is_user=True, key=f"{str(i)}_user")
             message(st.session_state["generated"][i], key=str(i),
                     avatar_style="Aneka",  # change this for a different user icon
                     seed=123)

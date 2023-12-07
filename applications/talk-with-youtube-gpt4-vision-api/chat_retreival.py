@@ -13,8 +13,7 @@ from langchain.chains import ConversationalRetrievalChain
 
 def lanceDBConnection(dataset):
     db = lancedb.connect("/tmp/lancedb")
-    table = db.create_table("tb",data=dataset, mode="overwrite")
-    return table
+    return db.create_table("tb",data=dataset, mode="overwrite")
 
 
 def vectorStoreSetup(text,OPENAI_KEY):
@@ -31,8 +30,11 @@ def vectorStoreSetup(text,OPENAI_KEY):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
     all_splits = text_splitter.split_documents(data)
 
-    vectorstore = LanceDB.from_documents(documents=all_splits,embedding=OpenAIEmbeddings(openai_api_key=OPENAI_KEY) , connection= table)
-    return vectorstore
+    return LanceDB.from_documents(
+        documents=all_splits,
+        embedding=OpenAIEmbeddings(openai_api_key=OPENAI_KEY),
+        connection=table,
+    )
 
 
 def retrieverSetup(text, OPENAI_KEY):
@@ -43,8 +45,9 @@ def retrieverSetup(text, OPENAI_KEY):
     )
 
     retriever = vectorstore.as_retriever()
-    qa = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory)
-    return qa
+    return ConversationalRetrievalChain.from_llm(
+        llm, retriever=retriever, memory=memory
+    )
 
 def chat(qa, question):
     r = qa(question+"?")

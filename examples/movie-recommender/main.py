@@ -49,9 +49,15 @@ if __name__ == "__main__":
     movies = pd.read_csv('./ml-latest-small/movies.csv', header=0, names=["movie id", "title", "genres"])
     movies = movies[movies['movie id'].isin(reviewmatrix.columns)]
 
-    data = []
-    for i in range(len(movies)):
-        data.append({"id": movies.iloc[i]["movie id"], "title": movies.iloc[i]['title'], "vector": vectors[i], "genre": movies.iloc[i]['genres']})
+    data = [
+        {
+            "id": movies.iloc[i]["movie id"],
+            "title": movies.iloc[i]['title'],
+            "vector": vectors[i],
+            "genre": movies.iloc[i]['genres'],
+        }
+        for i in range(len(movies))
+    ]
     print(pd.DataFrame(data))
 
 

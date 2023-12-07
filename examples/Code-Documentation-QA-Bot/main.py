@@ -25,9 +25,7 @@ from langchain.chains import RetrievalQA
 def get_document_title(document):
     m = str(document.metadata["source"])
     title = re.findall("pandas.documentation(.*).html", m)
-    if title[0] is not None:
-        return(title[0])
-    return ''
+    return title[0] if title[0] is not None else ''
 
 def arg_parse():
     default_query = "What are the major differences in pandas 2.0?"
@@ -37,12 +35,11 @@ def arg_parse():
     parser.add_argument('--openai-key', type=str, help='OpenAI API Key')
     args = parser.parse_args()
 
-    if not args.openai_key:
-        if "OPENAI_API_KEY" not in os.environ:
-            raise ValueError("OPENAI_API_KEY environment variable not set. Please set it or pass --openai_key")
-    else:
+    if args.openai_key:
         openai.api_key = args.openai_key
 
+    elif "OPENAI_API_KEY" not in os.environ:
+        raise ValueError("OPENAI_API_KEY environment variable not set. Please set it or pass --openai_key")
     return args
 
 if __name__ == "__main__":
@@ -66,9 +63,7 @@ if __name__ == "__main__":
             loader = BSHTMLLoader(p, open_encoding="utf8")
             raw_document = loader.load()
 
-            m = {}
-            m["title"] = get_document_title(raw_document[0])
-            m["version"] = "2.0rc0"
+            m = {"title": get_document_title(raw_document[0]), "version": "2.0rc0"}
             raw_document[0].metadata = raw_document[0].metadata | m
             raw_document[0].metadata["source"] = str(raw_document[0].metadata["source"])
             docs = docs + raw_document

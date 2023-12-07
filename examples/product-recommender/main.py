@@ -16,10 +16,7 @@ def products_bought_by_user_in_the_past(user_id: int, top: int = 10):
 
     selected['product_name'] = selected['product_id'].map(product_entries.set_index('product_id')['product_name'])
     selected = selected[['product_id', 'product_name', 'total_orders']].reset_index(drop=True)
-    if selected.shape[0] < top:
-        return selected
-
-    return selected[:top]
+    return selected if selected.shape[0] < top else selected[:top]
 
 def args_parse():
     parser = argparse.ArgumentParser(description='Product Recommender')
@@ -29,9 +26,7 @@ def args_parse():
     parser.add_argument('--num-threads', type=int, default=1, help='amount of parallelization')
     parser.add_argument('--num-partitions', type=int, default=256, help='number of partitions of the index')
     parser.add_argument('--num-sub-vectors', type=int, default=16, help='number of sub-vectors (M) that will be created during Product Quantization (PQ).')
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()
 
 files = [
     'instacart-market-basket-analysis.zip',

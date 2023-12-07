@@ -12,7 +12,7 @@ def insert_audio():
     batches = [batch["audio"] for batch in dataset.iter(100)]
     meta_batches = [batch["category"] for batch in dataset.iter(100)]
     audio_data = [np.array([audio["array"] for audio in batch]) for batch in batches]
-    meta_data = [np.array([meta for meta in batch]) for batch in meta_batches]
+    meta_data = [np.array(list(batch)) for batch in meta_batches]
     for i in tqdm(range(len(audio_data))):
         (_, embedding) = create_audio_embedding(audio_data[i])
         data = [{"audio": x[0]['array'], "vector": x[1], 'sampling_rate': x[0]['sampling_rate'], 'category': x[2]} for x in zip(batches[i], embedding, meta_data[i])]

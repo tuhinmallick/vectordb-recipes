@@ -67,11 +67,10 @@ def arg_parse():
     parser.add_argument('--model', type=str, default="text-embedding-ada-002", help='OpenAI API Key')
     args = parser.parse_args()
 
-    if not args.openai_key:
-        if "OPENAI_API_KEY" not in os.environ:
-            raise ValueError("OPENAI_API_KEY environment variable not set. Please set it or pass --openai_key")
-    else:
+    if args.openai_key:
         openai.api_key = args.openai_key
+    elif "OPENAI_API_KEY" not in os.environ:
+        raise ValueError("OPENAI_API_KEY environment variable not set. Please set it or pass --openai_key")
     OPENAI_MODEL = args.model
 
     return args

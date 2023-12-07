@@ -77,7 +77,7 @@ class HRChatbot:
         df_columns = self.df.columns.to_list()
         tools = [
             Tool(
-                name = "Timekeeping Policies",
+                name="Timekeeping Policies",
                 func=timekeeping_policy.run,
                 description="""
                 Useful for when you need to answer questions about employee timekeeping policies.
@@ -87,12 +87,12 @@ class HRChatbot:
                 <assistant>: Action: Timekeeping Policies
                 <assistant>: Action Input: Vacation Leave Policy - Unused Leave
                 ...
-                """
+                """,
             ),
             Tool(
-                name = "Employee Data",
+                name="Employee Data",
                 func=python.run,
-                description = f"""
+                description=f"""
                 Useful for when you need to answer questions about employee data stored in pandas dataframe 'df'. 
                 Run python pandas operations on 'df' to help you get the right answer.
                 'df' has the following columns: {df_columns}
@@ -100,16 +100,15 @@ class HRChatbot:
                 <user>: How many Sick Leave do I have left?
                 <assistant>: df[df['name'] == '{user}']['vacation_leave']
                 <assistant>: You have n  vacation_leave left.              
-                """
+                """,
             ),
             Tool(
-                name = "Calculator",
+                name="Calculator",
                 func=calculator.run,
-                description = f"""
+                description="""
                 Useful when you need to do math operations or arithmetic operations.
-                """
+                """,
             ),
-
         ]
 
 
@@ -119,5 +118,4 @@ class HRChatbot:
         self.agent = initialize_agent(tools, self.llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True, agent_kwargs=agent_kwargs)
 
     def get_response(self, user_input):
-        response = self.agent.run(user_input)
-        return response
+        return self.agent.run(user_input)

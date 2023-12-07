@@ -19,7 +19,7 @@ def main(query=None):
     datasets = {"english": iter(en['train']), "french": iter(fr['train'])}
 
 
-        
+
     registry = EmbeddingFunctionRegistry().get_instance()
     cohere = registry.get("cohere").create() # uses multi-lingual model by default (768 dim)
 
@@ -39,12 +39,11 @@ def main(query=None):
     num_records = 10000
     data = []
 
-    for i in tqdm(range(0, num_records, batch_size)):
-
+    for _ in tqdm(range(0, num_records, batch_size)):
         for lang, dataset in datasets.items():
-            
+
             batch = [next(dataset) for _ in range(batch_size)]
-            
+
             texts = [x['text'] for x in batch]
             ids = [f"{x['id']}-{lang}" for x in batch]
             data.extend({
@@ -59,10 +58,10 @@ def main(query=None):
 
     if not query:
         it = iter(fr['train'])
-        for i in range(5):
+        for _ in range(5):
             next(it)
         query = next(it)
-    
+
     rs = tbl.search(query["text"]).limit(3).to_list()
     print("Query: ", query["text"])
     print("Results: ", rs)

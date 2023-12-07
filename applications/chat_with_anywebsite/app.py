@@ -53,13 +53,11 @@ class ChatbotHelper:
         return documents
 
     def load_llm(self):
-        # download your llm in system or use it else
-        #llm = CTransformers(
-        #    model="mistral-7b-instruct-v0.1.Q5_K_M.gguf",
-        #    model_type="mistral"
-        #)
-        llm = CTransformers(model='TheBloke/Mistral-7B-v0.1-GGUF', model_file='mistral-7b-v0.1.Q4_K_M.gguf',model_type="mistral")
-        return llm 
+        return CTransformers(
+            model='TheBloke/Mistral-7B-v0.1-GGUF',
+            model_file='mistral-7b-v0.1.Q4_K_M.gguf',
+            model_type="mistral",
+        ) 
 
     def split_text(self, documents):
         text_splitter = RecursiveCharacterTextSplitter(
@@ -75,12 +73,11 @@ class ChatbotHelper:
         print("Creating bge embedder...")
         model_name = "BAAI/bge-base-en"
         encode_kwargs = {'normalize_embeddings': True}
-        embedder = HuggingFaceBgeEmbeddings(
+        return HuggingFaceBgeEmbeddings(
             model_name=model_name,
             model_kwargs={'device': 'cpu'},
-            encode_kwargs=encode_kwargs
+            encode_kwargs=encode_kwargs,
         )
-        return embedder
 
     def create_vector_store(self, chunks, embedder):
         print("Creating vectorstore...")
@@ -88,20 +85,17 @@ class ChatbotHelper:
         table = db.create_table("pdf_search", data=[
             {"vector": embedder.embed_query("Hello World"), "text": "Hello World", "id": "1"}
         ], mode="overwrite")
-        vectorstore = LanceDB.from_documents(chunks, embedder, connection=table)
-        return vectorstore
+        return LanceDB.from_documents(chunks, embedder, connection=table)
 
     def create_retriever(self, vectorstore):
         print("Creating vectorstore retriever...")
-        retriever = vectorstore.as_retriever()
-        return retriever
+        return vectorstore.as_retriever()
 
     def embed_user_query(self, query):
         if self.chunks is None:
             return "Chatbot not initialized. Please provide a URL first."
         core_embeddings_model = self.bge_embedding(self.chunks)
-        embedded_query = core_embeddings_model.embed_query(query)
-        return embedded_query
+        return core_embeddings_model.embed_query(query)
 
     def create_chatbot(self, retriever):
         llm = self.load_llm()
@@ -109,12 +103,9 @@ class ChatbotHelper:
             memory_key='chat_history',
             return_messages=True
         )
-        conversation_chain = ConversationalRetrievalChain.from_llm(
-            llm=llm,
-            retriever=retriever,
-            memory=memory
+        return ConversationalRetrievalChain.from_llm(
+            llm=llm, retriever=retriever, memory=memory
         )
-        return conversation_chain
 
     def chat(self, conversation_chain, input):
         return conversation_chain.run(input)
@@ -129,11 +120,10 @@ class ChatbotHelper:
 
         if not self.chatbot_instance and urls:
             bot_message = self.initialize_chatbot(urls)
+        elif self.chatbot_instance:
+            bot_message = self.chat(self.chatbot_instance, message)
         else:
-            if self.chatbot_instance:
-                bot_message = self.chat(self.chatbot_instance, message)
-            else:
-                bot_message = "Please provide a URL to initialize the chatbot first, then ask any questions related to that site."
+            bot_message = "Please provide a URL to initialize the chatbot first, then ask any questions related to that site."
 
         self.chat_history.append((message, bot_message))
         chat_history_text = "\n".join([f"User: {msg[0]}\nBot: {msg[1]}\n" for msg in self.chat_history])

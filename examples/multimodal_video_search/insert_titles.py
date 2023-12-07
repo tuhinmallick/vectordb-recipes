@@ -46,7 +46,12 @@ def get_video_title(video_id):
 db = lancedb.connect("data/video-lancedb")
 
 setup_clip_model('openai/clip-vit-base-patch32')
-videos = list(set([re.search('(?<=videos\/).*(?=\/)', name).group() for name in glob.glob('./videos/*/**')]))
+videos = list(
+    {
+        re.search('(?<=videos\/).*(?=\/)', name).group()
+        for name in glob.glob('./videos/*/**')
+    }
+)
 
 def insert(video_ids):
     titles = [(vid, get_video_title(vid)) for vid in video_ids]
