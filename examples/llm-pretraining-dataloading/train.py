@@ -52,10 +52,7 @@ class CausalAttentionHead(nn.Module):
         attn_weights = F.softmax(attn_filter, dim=-1)
         attn_weights = self.attn_drop(attn_weights)
 
-        # Now we do weighted aggregation of values to get the output of attention
-        # attn_weights [bs, c, c] x V [bs, c, h] = output [bs, c, head_size]
-        output = torch.bmm(attn_weights, v)
-        return output
+        return torch.bmm(attn_weights, v)
     
 class MultiHeadedAttention(nn.Module):
     def __init__(self, config):
@@ -134,16 +131,13 @@ class GPT(lightning.LightningModule):
         # Pass the input data through all blocks
         x = self.backbone(x)
 
-        # Pass it through the lm head
-        logits = self.lm_head(x)
-        return logits
+        return self.lm_head(x)
 
     def get_loss(self, predictions, target):
         B, C, V = predictions.shape
         predictions = predictions.view(B*C, V)
         target = target.view(B*C)
-        loss = F.cross_entropy(predictions, target)
-        return loss
+        return F.cross_entropy(predictions, target)
 
     def training_step(self, batch, batch_idx):
         text, target = batch
@@ -211,7 +205,7 @@ class GPTDataset(Dataset):
         """
         current_window_idxs = np.arange(idx, idx+self.context_len+1)
         data = self.from_idxs(current_window_idxs)
-        x = data[0:self.context_len]
+        x = data[:self.context_len]
         y = data[1:self.context_len+1] # +1 because our target is the sentence is 1 step ahead of input text
         return x, y
     

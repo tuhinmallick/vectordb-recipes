@@ -15,7 +15,7 @@ print("Tokenizing the dataset and writing it as a lance dataset...")
 all_tokens = []
 # Only choosing 1K sentences for now. Increase if you want to train it for longer on larger hardware
 total_rows = 100_000_000
-data = dataset['train'].select([x for x in range(total_rows)])
+data = dataset['train'].select(list(range(total_rows)))
 for row in tqdm(data['text'], total=len(data)):
     row = row.replace("<|endoftext|>", " ")
     encoded = tokenizer(row)['input_ids']

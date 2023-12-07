@@ -49,9 +49,7 @@ def test_main(mock_embed):
             loader = BSHTMLLoader(p, open_encoding="utf8")
             raw_document = loader.load()
 
-            m = {}
-            m["title"] = get_document_title(raw_document[0])
-            m["version"] = "2.0rc0"
+            m = {"title": get_document_title(raw_document[0]), "version": "2.0rc0"}
             raw_document[0].metadata = raw_document[0].metadata | m
             raw_document[0].metadata["source"] = str(raw_document[0].metadata["source"])
             docs = docs + raw_document

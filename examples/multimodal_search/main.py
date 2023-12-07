@@ -63,17 +63,16 @@ def text_search(text):
 def create_data(db):
     tbl = db.create_table('animal_images', [{'vector': embed(dataset[0]['img']), 'id': 0, 'label': dataset[0]['labels']}])
 
-    data = []
-    for i in tqdm(range(1, len(dataset))):
-        data.append({'vector': dataset[i]['img'], 'id': i, 'label': dataset[i]['labels']})
-
+    data = [
+        {'vector': dataset[i]['img'], 'id': i, 'label': dataset[i]['labels']}
+        for i in tqdm(range(1, len(dataset)))
+    ]
     batched_data = [data[n:n+50] for n in range(0, len(data), 50)]
 
     for i in tqdm(batched_data):
         batch_data = []
         for j in i:
-            row = {}
-            row['vector'] = embed(j['vector'])
+            row = {'vector': embed(j['vector'])}
             row['id'] = j['id']
             row['label'] = j['label']
             batch_data.append(row)

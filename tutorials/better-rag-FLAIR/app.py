@@ -58,8 +58,7 @@ flare = FlareChain.from_llm(
 
 # Define a function to generate FLARE output based on user input
 def generate_flare_output(input_text):
-    output = flare.run(input_text)
-    return output
+    return flare.run(input_text)
 
 input = gr.Text(
                 label="Prompt",
