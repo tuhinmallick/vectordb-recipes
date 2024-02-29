@@ -2,7 +2,7 @@ repo_name: tuhinmallick/vectordb-recipes
 report_id: aa7e3e44ce0d2c9c39ea7ba6f014bb51
 version: 0.1
 repo_type: Public
-timestamp: '2024-02-19T00:17:08+00:00'
+timestamp: '2024-02-29T20:07:33+00:00'
 requested_by: AyushExel
 provider: github
 branch: main
@@ -135,7 +135,7 @@ tools:
   open_source: true
   hosted_saas: false
   category: Data Stores
-  sub_category: Databases
+  sub_category: Machine Learning Tools
   image_url: https://img.stackshare.io/service/49130/default_350949b1605e6d451485caa1ab19ceebff7935a9.jpg
   detection_source_url: https://github.com/tuhinmallick/vectordb-recipes/blob/main/examples/arxiv-recommender/requirements.txt
   detection_source: examples/arxiv-recommender/requirements.txt
