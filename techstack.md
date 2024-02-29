@@ -12,7 +12,7 @@ tuhinmallick/vectordb-recipes is built on the following main stack:
 - [PostCSS](https://github.com/postcss/postcss) – CSS Pre-processors / Extensions
 - [React](https://reactjs.org/) – Javascript UI Libraries
 - [Tailwind CSS](https://tailwindcss.com) – Front-End Frameworks
-- [LanceDB](https://lancedb.com/) – Databases
+- [LanceDB](https://lancedb.com/) – Vector Databases
 - [ESLint](http://eslint.org/) – Code Review
 - [GitHub Actions](https://github.com/features/actions) – Continuous Integration
 - [pytest](http://pytest.org/latest/) – Testing Frameworks
@@ -47,7 +47,7 @@ tuhinmallick/vectordb-recipes is built on the following main stack:
 - <img width='25' height='25' src='https://img.stackshare.io/service/3339/rlFcjEdI.png' alt='PostCSS'/> [PostCSS](https://github.com/postcss/postcss) – CSS Pre-processors / Extensions
 - <img width='25' height='25' src='https://img.stackshare.io/service/1020/OYIaJ1KK.png' alt='React'/> [React](https://reactjs.org/) – Javascript UI Libraries
 - <img width='25' height='25' src='https://img.stackshare.io/service/8158/default_660b7c41c3ba489cb581eec89c04655404258c19.png' alt='Tailwind CSS'/> [Tailwind CSS](https://tailwindcss.com) – Front-End Frameworks
-- <img width='25' height='25' src='https://img.stackshare.io/service/49130/default_350949b1605e6d451485caa1ab19ceebff7935a9.jpg' alt='LanceDB'/> [LanceDB](https://lancedb.com/) – Databases
+- <img width='25' height='25' src='https://img.stackshare.io/service/49130/default_350949b1605e6d451485caa1ab19ceebff7935a9.jpg' alt='LanceDB'/> [LanceDB](https://lancedb.com/) – Vector Databases
 - <img width='25' height='25' src='https://img.stackshare.io/service/3337/Q4L7Jncy.jpg' alt='ESLint'/> [ESLint](http://eslint.org/) – Code Review
 - <img width='25' height='25' src='https://img.stackshare.io/service/11563/actions.png' alt='GitHub Actions'/> [GitHub Actions](https://github.com/features/actions) – Continuous Integration
 - <img width='25' height='25' src='https://img.stackshare.io/service/4586/Lu99Qe0Z_400x400.png' alt='pytest'/> [pytest](http://pytest.org/latest/) – Testing Frameworks
@@ -74,7 +74,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [tuhinmallick/vectordb-recipes](https://github.com/tuhinmallick/vectordb-recipes)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|57<br/>Tools used|02/19/24 <br/>Report generated|
+|57<br/>Tools used|02/29/24 <br/>Report generated|
 |------|------|
 </div>
 
